@@ -1,16 +1,105 @@
-# React + Vite
+## Overview
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This is an internal operations-style flight schedule table built with React.  
+All data is loaded from local JSON and managed fully client-side (no backend/API).
 
-Currently, two official plugins are available:
+## Tech Stack
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- React
+- Vite
+- Material UI
+- react-window (virtualized rendering)
 
-## React Compiler
+## Getting Started
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+### Prerequisites
 
-## Expanding the ESLint configuration
+- Node.js 18+ recommended
+- npm
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+### Install
+
+```bash
+npm install
+```
+
+### Run (Development)
+
+```bash
+npm run dev
+```
+
+### Build
+
+```bash
+npm run build
+```
+
+### Lint
+
+```bash
+npm run lint
+```
+
+## Features Implemented
+
+### 1) Virtualized Table
+
+- Large dataset is rendered using `react-window` (`Grid`) for smooth scrolling/performance.
+
+### 2) Search
+
+- Search by:
+  - flight number
+  - origin
+  - destination
+
+### 3) Filters (AND Logic)
+
+- Date range overlap (`startDate` / `endDate` vs selected from/to)
+- Days of operation (multi-select, at least one selected day must match)
+- Status
+- AOC
+- Body type
+- `Clear All` resets all active filters
+
+### 4) Row Actions
+
+- Inline status toggle (`Active` / `Inactive`) with confirmation
+- Single row delete with confirmation
+- Multi-select rows and bulk delete with confirmation
+
+### 5) Inline Editing
+
+- Edit mode per row
+- Editable fields:
+  - STD
+  - STA
+  - Start Date
+  - End Date
+  - Status
+- Save/Cancel actions
+- Async save simulation with row-level loading
+- Simulated failure path with row-level error feedback and rollback behavior
+
+## Project Structure
+
+```text
+src/
+  components/
+    FlightFilters.jsx
+    FlightTable.jsx
+  data/
+    flights.json
+  pages/
+    FlightSchedulePage.jsx
+  utils/
+    filterFlights.js
+    flightUiHelpers.js
+```
+
+## Notes / Assumptions
+
+- All operations are intentionally local state only, per assessment constraints.
+- Search is immediate (no debounce) since dataset size is small and in-memory.
+- UI is optimized for operations usability with emphasis on table interaction.
